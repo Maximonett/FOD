@@ -34,7 +34,7 @@ begin
 		writeln('1.Crear Archivo');
 		writeln('2.Agregar numeros');
 		writeln('3.Imprimir');
-		writeln('4.Cantidad de numeros Menosres a 1500');
+		writeln('4.Cantidad de numeros Menores a 1500');
 		writeln('5.Promedio Total y cantidad Total de numeros ingresados');
 	
 		readln(opc);
@@ -42,7 +42,7 @@ begin
 		if (opc=1)or (opc=2) or (opc=3) or (opc=4) or (opc=5) then begin
 			writeln('Nombre del archivo a crear o a utilizar');
 			readln(nombre_fisico);
-			assign(numeros,nombre_fisico);
+			assign(numeros,nombre_fisico+'.dat');
 		end;
 		
 		case opc of 
@@ -58,7 +58,7 @@ begin
 				writeln('Numeros ingresados correctamente');
 			end;
 			2:begin
-				reset(numeros);
+				reset(numeros);  
 				writeln('Ingrese los numeros que desea agregar (finaliza con 30000');
 				repeat
 					readln(num);
@@ -74,6 +74,7 @@ begin
 					read(numeros,num);
 					writeln('-',num);
 				end;
+				close(numeros);
 			end;
 			4:begin
 				reset(numeros);
@@ -83,6 +84,7 @@ begin
 					if (num<1500) then
 						contadorMenores:=contadorMenores+1;
 				end;
+				close(numeros);
 				writeln();
 				writeln('La cantidad de numeros menores a 1500 es: ',contadorMenores);
 			end;
@@ -95,6 +97,7 @@ begin
 					suma:=suma+num;
 					cantidad:=cantidad+1;
 				end;
+				close(numeros);
 				promedio:=suma/cantidad;
 				writeln('El promedio de los numeros insertados es de ',promedio:0:2);
 				writeln();
