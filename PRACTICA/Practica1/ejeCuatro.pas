@@ -35,6 +35,9 @@ var
 	apellidoBuscado:string[20];
 	nombreBuscado:string[20];
 	found:boolean;
+	numeroBuscado:integer;
+	archivoSalida:string[30];
+	carga:Text;
 
 procedure buscarEmpleadoXNro(var E:empleados; var esta:boolean; nroBuscado:integer);
 var 
@@ -164,8 +167,70 @@ begin
 				close(E);
 			end;
 			6:begin
-				
+				reset(E);
+				writeln('Ingrese el número de empleado a modificar su edad:'); 
+				readln(numeroBuscado);
+    
+				found := false;
+    
+				while (not eof(E)) and (not found) do begin
+					read(E, emp); // Leer el registro
+        
+					if (emp.nro = numeroBuscado) then begin
+						found := true;
+						writeln('Edad actual: ', emp.edad);
+						writeln('Ingrese la nueva edad: ');
+						readln(emp.edad);
+            
+			// Mover el puntero atrás una posición antes de escribir el registro modificado
+						seek(E, FilePos(E) - 1);
+						write(E, emp);
+            
+						writeln('Edad modificada correctamente.');
+					end;
+				end;
+    
+				if not found then
+					writeln('No se encontró el empleado con número ', numeroBuscado);
+    
+				close(E);
 			end;
+			7:begin
+				archivoSalida:='todos_empleados.txt';
+				assign(carga,archivoSalida);
+				
+				rewrite(carga); { Crea el archivo de texto }
+				reset(E); { Abre el archivo binario }
+                
+                while not eof(E) do begin
+					read(E, emp); { Leer registro del archivo binario }
+					with emp do begin
+						writeln('Nombre','-','Apellido','-','Numero','-','Edad','-','DNI');
+							writeln(carga,nombre,'-',apellido,'-',nro,'-',edad,'',dni);
+					end;
+                end;
+                writeln('Archivo exportado a texto correctamente.');
+                close(E);
+                close(carga);
+			end;
+			8:begin 
+				archivoSalida:='faltaDNIempleado.txt';
+				assign(carga,archivoSalida);
+				rewrite(carga);
+				reset(E);
+				while not eof(E) do begin
+					read(E,emp); 
+					if (emp.dni=00) then begin
+						with emp do begin
+							writeln('Nombre','-','Apellido','-','Numero','-','Edad','-','DNI');
+							writeln(carga,nombre,'-',apellido,'-',nro,'-',edad,'',dni);
+						end;
+					end
+				end;
+				writeln('Archivo exportado a texto correctamente.');
+                close(E);
+                close(carga);
+			end;	
 		end;
 		
 	until(opc=0);
