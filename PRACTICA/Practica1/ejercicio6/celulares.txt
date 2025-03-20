@@ -1,0 +1,18 @@
+21 1000000.00  Samsung
+1 5  muy bueno
+S21
+34 200000.00  xiaomi
+9 3  copado
+Max1
+32 23.00  motorola
+8 2  viejo
+mms
+65 45000000.00 Motorola
+2 0 mejor al anterior
+SXC
+89 200000000.00 SUPERMAN
+10 1 poderoso
+MaXPOwer
+3 34.00 kasung
+6 0 la mejor kakak
+kaka

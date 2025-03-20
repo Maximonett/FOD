@@ -205,8 +205,7 @@ begin
                 while not eof(E) do begin
 					read(E, emp); { Leer registro del archivo binario }
 					with emp do begin
-						writeln('Nombre','-','Apellido','-','Numero','-','Edad','-','DNI');
-							writeln(carga,nombre,'-',apellido,'-',nro,'-',edad,'',dni);
+						writeln(carga,nombre,'-',apellido,'-',nro,'-',edad,'',dni);
 					end;
                 end;
                 writeln('Archivo exportado a texto correctamente.');
@@ -222,7 +221,6 @@ begin
 					read(E,emp); 
 					if (emp.dni=00) then begin
 						with emp do begin
-							writeln('Nombre','-','Apellido','-','Numero','-','Edad','-','DNI');
 							writeln(carga,nombre,'-',apellido,'-',nro,'-',edad,'',dni);
 						end;
 					end

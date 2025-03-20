@@ -1,0 +1,9 @@
+21 1000000.00 Samsung
+1 5 muy bueno
+S21
+34 200000.00 xiaomi
+9 3 copado
+Max1
+32 23.00 motorola
+8 2 viejo
+mms
