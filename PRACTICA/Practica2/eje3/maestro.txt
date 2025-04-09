@@ -1,0 +1,12 @@
+Provincia: Buenos Aires
+  Alfabetizados: 630
+  Encuestados:   730
+-----------------------------
+Provincia: Cordoba
+  Alfabetizados: 340
+  Encuestados:   434
+-----------------------------
+Provincia: Santa Fe
+  Alfabetizados: 225
+  Encuestados:   330
+-----------------------------
