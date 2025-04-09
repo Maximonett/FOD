@@ -1,0 +1,3 @@
+Codigo: 2-Nombre: Detergente-Precio: 80.00-Stock Actual: 6-Stock Minimo: 10
+Codigo: 3-Nombre: Desinfectante-Precio: 120.00-Stock Actual: 4-Stock Minimo: 10
+Codigo: 4-Nombre: Jabon Liquido-Precio: 90.00-Stock Actual: 20-Stock Minimo: 25

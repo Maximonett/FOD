@@ -1,0 +1,8 @@
+90 102.90  terror
+Malo 
+78 33.87  suspenso
+Bueno
+76 45.98  triller
+Rocket
+44 65.97 terror
+La Profesia

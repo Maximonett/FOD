@@ -1,0 +1,6 @@
+1 1000.50 Centro LaPlata BuenosAires
+2 1500.00 Centro LaPlata BuenosAires
+3 500.00 Sur LaPlata BuenosAires
+1 3000.00 Norte Cordoba Cordoba
+2 4000.00 Centro Cordoba Cordoba
+3 2000.00 Centro Rosario SantaFe

@@ -1,0 +1,5 @@
+101  JuanPerez 1500.50 101.00
+102  AnaLopez 1800.75 102.00
+103  MartaGomez 750.00 104.00
+104  LuisTorres 1700.00 105.00
+106  PabloMartinez 2100.00 107.00
