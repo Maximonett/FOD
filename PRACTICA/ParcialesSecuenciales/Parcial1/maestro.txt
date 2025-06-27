@@ -1,0 +1,6 @@
+1 1234567 10 20 15 CocaCola
+Bebida azucarada
+2 9876543 20 50 25 Hamburguesa
+Comida rápida
+3 5555555 30 5 10 Ensalada
+Comida saludable
