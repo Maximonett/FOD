@@ -133,7 +133,7 @@ begin
 		
 	end;
 	writeln(txt, 'Cantida de ventas Totales de la Empresa: ', cantTotalEmpresa);
-	writeln(txt,'Monto totald de ventas de la empresa: ',montoTotalEmpresa:0:2);
+	writeln(txt,'Monto total de ventas de la empresa: ',montoTotalEmpresa:0:2);
 	
 	close(txt);
 	close(mae);
