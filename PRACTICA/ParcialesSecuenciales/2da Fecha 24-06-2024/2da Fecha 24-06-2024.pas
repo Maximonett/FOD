@@ -22,6 +22,10 @@ Nota 2: El informe debe incluir cualquier municipio que cumpla la condición, in
 
 program untitled;
 
+uses
+	SysUtils;
+
+
 const
 	DF=30;
 	VA=9999;
@@ -69,36 +73,56 @@ begin
 			leer(v[pos],vecR[pos]);
 end;
 
-procedure actualizarMaestro(var mae:maestro; var v:vecDet;var vecR:vecReg);
-var 
-	min:infoDet;
-	regMae:infoMae;
-	codigoActual:integer;
-	totalCasos:integer;
+procedure actualizarMaestro(var mae: maestro; var v: vecDet; var vecR: vecReg);
+var
+  regMae: infoMae;
+  min: infoDet;
+  codigoActual: integer;
+  totalCasos: integer;
+  i: subrango;
 begin
-	reset(mae);
-	minimo(v,vecR,min);
-	while min.codigo<> VA do begin
-		codigoActual:=min.codigo;
-		totalCasos:=0;
-		while min.codigo=codigoActual do begin
-			totalCasos:=totalCasos+ min.cantCasosPos;
-			minimo(v,vecR,min);
-		end;
-	end;
-	
-	//busco el municipio en el maestro  y actualizo la cantidad de casos positivos con los casos que calcule......
-	
-	while not eof(mae) do begin
-		read(mae,regMae);
-		if (regMae.codigo = codigoActual) then begin
-			regMae.cantCasosPos:=regMae.cantCasosPos+totalCasos;
-			seek(mae,filepos(mae)-1);
-			write(mae,regMae);
-			break;
-		end;
-	end;
+  reset(mae);
+
+  // ← ← BLOQUE DE APERTURA DE DETALLES → →
+  for i := 1 to DF do begin
+    assign(v[i], 'detalle' + IntToStr(i) + '.dat');
+    reset(v[i]);
+    leer(v[i], vecR[i]);
+  end;
+
+  minimo(v, vecR, min);
+
+  if not eof(mae) then
+    read(mae, regMae)
+  else
+    regMae.codigo := VA;
+
+  while regMae.codigo <> VA do begin
+    totalCasos := 0;
+
+    while min.codigo = regMae.codigo do begin
+      totalCasos := totalCasos + min.cantCasosPos;
+      minimo(v, vecR, min);
+    end;
+
+    if totalCasos > 0 then begin
+      regMae.cantCasosPos := regMae.cantCasosPos + totalCasos;
+      seek(mae, filepos(mae) - 1);
+      write(mae, regMae);
+    end;
+
+    if not eof(mae) then
+      read(mae, regMae)
+    else
+      regMae.codigo := VA;
+  end;
+
+  close(mae);
+
+  for i := 1 to DF do
+    close(v[i]);
 end;
+
 
 
 procedure mostrarMunicipios(var mae:maestro);
