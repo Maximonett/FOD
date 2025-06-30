@@ -60,22 +60,26 @@ begin
 		info.codigo:=valoralto;	
 end;
 
-procedure minimo(var vec:vecDetalles; var vecR:vecRegistros;var min:infoDetalle);
+procedure minimo(var vec: vecDetalles; var vecR: vecRegistros; var min: infoDetalle);
 var
-	i, pos:subRango;
+  i, pos: subRango;
 begin
-	min.codigo:=valoralto;
-	min.fecha:='zzz';
-	
-	for i:=1 to DF do 
-		if((vecR[i].codigo<min.codigo) or (vecR[i].codigo=min.codigo) and (vecR[i].fecha<min.fecha)) then
-			begin
-				min:=vecR[i];
-				pos:=i;
-			end;
-		if(min.codigo<> valoralto) then
-			leer(vec[pos],vecR[pos]);
+  min.codigo := valoralto;
+  min.fecha := 'zzz';
+  pos := 0;
+
+  for i := 1 to DF do
+    if (vecR[i].codigo < min.codigo) or
+       ((vecR[i].codigo = min.codigo) and (vecR[i].fecha < min.fecha)) then
+    begin
+      min := vecR[i];
+      pos := i;
+    end;
+
+  if (pos <> 0) then
+    leer(vec[pos], vecR[pos]);
 end;
+
 
 procedure maximo1(fecha:cadena; cant:integer; var fechaMax:cadena;var max:integer);
 begin
@@ -86,7 +90,7 @@ begin
 		end;
 end;	
 
-procedure maximo2(codigo:integer; cant:integer; var codMax:integer; cantMax:integer);
+procedure maximo2(codigo:integer; cant:integer; var codMax:integer; var cantMax:integer);
 begin
 	if (cant>cantMax) then
 		begin

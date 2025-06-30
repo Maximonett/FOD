@@ -77,7 +77,6 @@ procedure actualizarMaestro(var mae: maestro; var v: vecDet; var vecR: vecReg);
 var
   regMae: infoMae;
   min: infoDet;
-  codigoActual: integer;
   totalCasos: integer;
   i: subrango;
 begin
