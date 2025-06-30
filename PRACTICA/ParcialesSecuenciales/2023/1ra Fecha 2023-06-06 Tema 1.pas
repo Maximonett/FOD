@@ -111,7 +111,7 @@ begin
 		read(arch,p);
 		if (p.codigo=cod) then begin
 			//Marcarlo como libre
-			p.next:=cabecera.next; // le pongo el valor que hay en la cabecera (si es un lugar libre un numero sino -1)
+			p.next:=cabecera.next; // le pongo el valor que hay en la cabecera (si es un lugar libre un numero, sino, -1)
 			cabecera.next:=pos; 
 			
 			// Escribir la cabecera
