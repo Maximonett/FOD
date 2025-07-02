@@ -143,7 +143,7 @@ begin
 	end;
 	close(txt);
 	close(mae);
-	for i:=1 to DF do
+	for i:=1 to DF do //ciero los detalles
 		close(v[i]);
 end;
 var 

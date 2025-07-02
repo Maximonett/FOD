@@ -63,7 +63,7 @@ begin
 		leer(det2,infoDet2);
 	end
 	else begin
-		min:=infoDet3.codigo;
+		min:=infoDet3;
 		leer(det3,infoDet3);
 	end;
 end;
