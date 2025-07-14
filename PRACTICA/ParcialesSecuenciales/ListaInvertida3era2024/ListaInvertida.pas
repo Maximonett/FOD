@@ -119,7 +119,7 @@ begin
 	
 	pos:=ExisteEmpleado(a,numero);
 	if pos=0 then begin
-		writeln('El empleado existe.');
+		writeln('El empleado No existe.');
 		exit;
 	end;
 	
