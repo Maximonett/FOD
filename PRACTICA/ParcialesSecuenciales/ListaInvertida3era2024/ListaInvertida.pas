@@ -91,6 +91,7 @@ begin
 		seek(a,filesize(a));
 		write(a,e);
 		writeln('El empleado ha sido agregado al final');
+		close(a);
 		exit;
 	end
 	else begin
@@ -105,6 +106,7 @@ begin
 		seek(a,posLibre);
 		write(a,e);
 		writeln('El empleado se agregado reutilizando espacio.')
+		close(a);
 	end;	
 end;
 
