@@ -114,35 +114,39 @@ var
 	cabecera,e:empleado;
 begin
 	writeln('Escribir el numero de empleado a dar de baja: '); readln(numero);
-	if (ExisteEmpleado(a,numero)=0) then begin
-		writeln('El empleado no Existe,');
+	
+	pos:=ExisteEmpleado(a,numero);
+	if pos=0 then begin
+		writeln('El empleado existe.');
 		exit;
 	end;
 	
 	reset(a);
 	read(a,cabecera);
-	pos:=1;
-	while not eof(a) do begin
-		read(a,e);
-		if(e.numero=numero)then begin
-			
-			e.numero:=cabecera.numero;
-			cabecer.numero:=-pos;
-			
-			seek(a,0);
-			write(a,cabecera);
-			
-			seek(a,pos);
-			write(a,e);
-			
-			writeln('El empleado ha sido dado de baja.');
-			close(a);
-			exit;
-		end;
-		pos:=pos+1;
-	end;
+	
+	//ir a la posicion a borrar logicamente
+	seek(a,pos);
+	read(a,e);
+	
+	//enlazar el espacio libre a la lista invertida
+	e.numero:=cabecera.numero;
+	cabecera:=-pos;
+	
+	//escribir la cabecera
+	seek(a,0);
+	write(a,cabecera);
+	
+	//escribir el registro dado de baja
+	seek(a,pos);
+	write(a,e);
+	
+	writeln('El empleado ha sido dado de baja');
+	
 	close(a);
 end;
+	
+	
+	
 
 BEGIN
 	
