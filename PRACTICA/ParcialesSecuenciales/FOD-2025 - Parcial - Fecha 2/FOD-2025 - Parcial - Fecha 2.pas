@@ -33,6 +33,9 @@ que los nombres ingresados corresponden a archivos existentes.
 
 program untitled;
 
+uses
+	SysUtils;
+
 const
 	VA=9999;
 	N=12;
@@ -61,6 +64,68 @@ type
 	
 	detalles=array[1..N] of detalle;
 	regDetalle=array[1..N] of TPartido;
+	
+procedure CrearMaestro;
+var
+  archM: maestro;
+  equipo: TEquipo;
+  i: integer;
+begin
+  Assign(archM, 'maestro.dat');
+  Rewrite(archM);
+
+  for i := 1 to 5 do
+  begin
+    equipo.codEquipo := i;
+    equipo.nomEquipo := 'Equipo_' + IntToStr(i);
+    equipo.cantJ := Random(30) + 1;
+    equipo.cantG := Random(equipo.cantJ);
+    equipo.cantE := Random(equipo.cantJ - equipo.cantG);
+    equipo.cantP := equipo.cantJ - equipo.cantG - equipo.cantE;
+    equipo.cantPuntos := equipo.cantG * 3 + equipo.cantE;
+
+    Write(archM, equipo);
+  end;
+
+  Close(archM);
+  writeln('Archivo maestro creado.');
+end;
+
+procedure CrearDetalles;
+var
+  dets: detalles;
+  partido: TPartido;
+  i, j, cantPartidos: integer;
+  nombreArchivo: string;
+begin
+  Randomize;
+
+  for i := 1 to N do
+  begin
+    nombreArchivo := 'detalle' + IntToStr(i) + '.dat';
+    Assign(dets[i], nombreArchivo);
+    Rewrite(dets[i]);
+
+    cantPartidos := Random(4) + 2; // entre 2 y 5 partidos ficticios
+
+    for j := 1 to cantPartidos do
+    begin
+      partido.codEquipo := Random(5) + 1;
+      partido.fechaPartido := 20250000 + Random(1231) + 1; // fecha ficticia YYYYMMDD
+      partido.cantPuntos := Random(4); // 0, 1, 2 o 3 puntos
+      partido.codRival := Random(5) + 1;
+
+      Write(dets[i], partido);
+    end;
+
+    Close(dets[i]);
+    writeln('Archivo ', nombreArchivo, ' creado con ', cantPartidos, ' registros.');
+  end;
+end;
+
+	
+	
+	
 	
 procedure leer(var a:detalle; var reg:TPartido);
 begin
@@ -93,7 +158,7 @@ begin
 	writeln('Ingrese el nombre del archivo maestro: '); readln(nombreDeArchivo);
 	assign(mae,nombreDeArchivo);
 	for i:=1 to N do begin
-		writeln('Ingrese el nombre del archivo detalle: '); read(nombreDeArchivo);
+		writeln('Ingrese el nombre del archivo detalle: '); readln(nombreDeArchivo);
 		assign(vDet[i],nombreDeArchivo);
 	end;
 end;
@@ -106,18 +171,22 @@ var
 	partidos:regDetalle;
 	
 begin
+	maxPuntos:=-1;
+	asignarArchivos(m,vDet);
+	reset(m);
 	//ABOR LOS DETALLES y LOS LEO
 	for i:=1 to N do begin
 		reset(vDet[i]);
 		leer(vDet[i],partidos[i]);
 	end;
+	
 	minimo(vDet,partidos,min);
+	
 	while (min.codEquipo<>VA) do begin
 		read(m,regM);
-		while (regM.codEquipo<> min.codEquipo) do begin
+		while (regM.codEquipo<> min.codEquipo) do
 			read(m,regM);
 		puntos:=0;
-		end;
 		while (regM.codEquipo=min.codEquipo) do begin
 			puntos:=puntos+ min.cantPuntos;
 			regM.cantJ:=regM.cantJ+1;
@@ -131,11 +200,13 @@ begin
 			minimo(vDet,partidos,min);
 		end;
 		regM.cantPuntos:=regM.cantPuntos+puntos;
-		maxPuntos:=-1;
+		
 		if (puntos>maxPuntos) then begin
 			maxPuntos:=puntos;
 			nombreMax:=regM.nomEquipo;
 		end;
+		seek(m,filepos(m)-1);
+		write(m,regM);
 	end;
 	writeln('El equipo que mas puntos sumo en la temporada fue: ',nombreMax,' con ',maxPuntos,' Puntos.');
 	close(m);
@@ -143,8 +214,16 @@ begin
 		close(vDet[i]);
 	end;
 end;
+
+var
+	mae:maestro;
+	vDet:detalles;
+
 BEGIN
-	
+	CrearMaestro;
+    CrearDetalles;
+	asignarArchivos(mae,vDet);
+	ejercicio(mae,vDet);
 	
 END.
 
