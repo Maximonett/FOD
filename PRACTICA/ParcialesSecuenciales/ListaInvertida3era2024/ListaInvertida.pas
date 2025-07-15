@@ -95,22 +95,23 @@ begin
 		exit;
 	end
 	else begin
-		posLibre:=-(cabecera.numero);
+		posLibre:=-(cabecera.numero); // 1. Obtener la posición libre desde la cabecera
+		
 		seek(a,posLibre);
 		read(a,regLibre);
 		
-		cabecera.numero:=regLibre.numero;	
-		seek(a,0)
+		cabecera.numero:=regLibre.numero; // 3. Actualizar la cabecera con el "siguiente" espacio libre
+		seek(a,0);
 		write(a,cabecera);
 		
 		seek(a,posLibre);
 		write(a,e);
-		writeln('El empleado se agregado reutilizando espacio.')
+		writeln('El empleado se agregado reutilizando espacio.');
 		close(a);
 	end;	
 end;
 
-procedure BajaEmpleado(var a:arvchivo);
+procedure BajaEmpleado(var a:archivo);
 var 
 	pos,numero:integer;
 	cabecera,e:empleado;
@@ -132,7 +133,7 @@ begin
 	
 	//enlazar el espacio libre a la lista invertida
 	e.numero:=cabecera.numero;
-	cabecera:=-pos;
+	cabecera.numero:=-pos;
 	
 	//escribir la cabecera
 	seek(a,0);
