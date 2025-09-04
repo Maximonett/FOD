@@ -1,0 +1,6 @@
+Producto 1 sin novedad
+Producto 2 muchas ventas
+Producto 3 sin existencia
+Producto 4 sin ventas
+Producto 5 sin novedad
+Producto 6 sin ventas

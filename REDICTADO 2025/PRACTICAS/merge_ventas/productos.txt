@@ -1,0 +1,6 @@
+1 49 12.75 Producto 1
+2 21 11.50 Producto 2
+3 0 20.20 Producto 3
+4 12 5.40 Producto 4
+5 52 6.80 Producto 5
+6 15 23.10 Producto 6

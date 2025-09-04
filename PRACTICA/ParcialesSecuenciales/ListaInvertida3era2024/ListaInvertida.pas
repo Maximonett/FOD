@@ -76,7 +76,7 @@ begin
 	writeln('Escriba el numero de empleado a dar de alta');readln(e.numero);
 	if (ExisteEmpleado(a,e.numero)<>0) then begin
 		writeln('El empleado ya existe.');
-		exit;
+		break;
 	end;
 	
 	writeln('Nombre: '); readln(e.nombre);
