@@ -86,7 +86,7 @@ begin
 		act.ano:=reg.ano;
 		writeln(' Año: ', act.ano);
 		anos:=anos+1;
-		presentacionesAno:=0;
+		presentacionesAno:=0s;
 		while (act.ano=reg.ano) do begin
 			act.codEvento:=reg.codEvento;
 			act.nombreEvento:=reg.nombreEvento;
