@@ -62,60 +62,78 @@ begin
 	for i:=1 to DF do begin
 		if ( vecReg[i].codigoP<min.codigoP) then begin
 			min:=vecReg[i];
-			pos:=1;
+			pos:=i;
 		end;
-		if (min.codigoP<>VA) then 
-			leer(vecDet[pos],vecReg[pos])
 	end;
+	if (min.codigoP<>VA) then 
+		leer(vecDet[pos],vecReg[pos])
 end;
 
 procedure actualizarMaestro(var mae:maestro; var vecDet:vecDetalles);
 var 
-	monto, montoTotal:real;
-	vecReg:vecRegistros;
-	comprados:integer;
-	p:producto;
-	min:venta;
-	i:subRango;
+  vecReg: vecRegistros;
+  p: producto;
+  min: venta;
+  i, vendidos: integer;
+  montoProd, montoTotal: real;
 begin
-	montoTotal:=0;
-	for i:=1 to DF do begin //abro todos los archivos detalle
-		reset(vecDet[i]);
-		leer(vecDet[i],vecReg[i]);
-	end;
-	
-	reset(mae);
-	minimo(vecDet,vecReg,min);
-	while (min.codigoP<>VA) do begin 
-		read(mae,p);
-		while (p.codigoP<>min.codigoP) do
-			read(mae,p);
-		monto:=0;
-		comprados:=0;
-		while (p.codigoP=min.codigoP) do begin
-			if (min.cantVend>p.stockActual) then begin
-				comprados:=comprados+p.stockActual; //venfo todos los que tengo 
-				p.stockActual:=0;	//pongo en cero el stock
-			end
-			else begin
-				comprados:=comprados+ min.cantVend;
-				p.stockActual:=p.stockActual-min.cantVend;
-			end;
-			minimo(vecDet,vecReg,min); 
-		end;
-		monto:=p.precioActual*comprados;
-		if (p.stockActual<p.stockMin) then
-				writeln('El producto: ',p.codigoP,' Stock Atual: ',p.stockActual);
-		seek(mae,filepos(mae)-1);
-		write(mae,p);
-		montoTotal:=montoTotal+monto;
-		writeln('Producto: ',p.codigoP,' Descripcion: ',p.descripcion,' Monto: $',monto:0:2);
-	end;
-	close(mae);
-	for i:=1 to DF do 
-		close(vecDet[i]);
-	writeln('El monto total recaudado es : $',montoTotal:0:2);
+  montoTotal := 0;
+
+  // Inicializar registros de cada detalle
+  for i := 1 to DF do begin
+    reset(vecDet[i]);
+    leer(vecDet[i], vecReg[i]);
+  end;
+
+  reset(mae);
+
+  minimo(vecDet, vecReg, min);
+
+  while min.codigoP <> VA do begin
+    // Leer producto del maestro correspondiente
+    read(mae, p);
+    while p.codigoP <> min.codigoP do
+      read(mae, p);
+
+    vendidos := 0;
+
+    // Acumular todas las ventas del producto
+    while (min.codigoP = p.codigoP) do begin
+      if min.cantVend > p.stockActual then begin
+        vendidos := vendidos + p.stockActual;
+        p.stockActual := 0;
+      end else begin
+        vendidos := vendidos + min.cantVend;
+        p.stockActual := p.stockActual - min.cantVend;
+      end;
+      minimo(vecDet, vecReg, min);
+    end;
+
+    // Calcular monto vendido del producto
+    montoProd := vendidos * p.precioActual;
+    montoTotal := montoTotal + montoProd;
+
+    // Mensajes según el stock
+    if vendidos = 0 then
+      writeln('Producto: ', p.codigoP, ' - ', p.descripcion, ' No se vendió hoy. Stock actual: ', p.stockActual)
+    else if p.stockActual < p.stockMin then
+      writeln('Producto: ', p.codigoP, ' - ', p.descripcion, ' Vendido, pero quedó debajo del stock mínimo. Stock actual: ', p.stockActual);
+
+    writeln('Producto: ', p.codigoP, ' - ', p.descripcion, ' Monto vendido hoy: $', montoProd:0:2);
+
+    // Actualizar el maestro
+    seek(mae, filepos(mae)-1);
+    write(mae, p);
+  end;
+
+  // Cerrar archivos
+  close(mae);
+  for i := 1 to DF do
+    close(vecDet[i]);
+
+  writeln('Monto total facturado en el dia: $', montoTotal:0:2);
 end;
+
 
 
 BEGIN
