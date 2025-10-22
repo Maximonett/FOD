@@ -58,10 +58,10 @@ procedure minimo(var vecDet:vecDetalles; var vecReg:vecRegistros;var min:venta);
 var
 	i,pos:subRango;
 begin
-	min.codigo:=VA;
+	min.codigoP:=VA;
 	for i:=1 to DF do begin
 		if ( vecReg[i].codigoP<min.codigoP) then begin
-			min:=vecReg[i].codigoP;
+			min:=vecReg[i];
 			pos:=1;
 		end;
 		if (min.codigoP<>VA) then 
@@ -98,21 +98,21 @@ begin
 				p.stockActual:=0;	//pongo en cero el stock
 			end
 			else begin
-				comprados:=caomprados+ min.cantVend;
+				comprados:=comprados+ min.cantVend;
 				p.stockActual:=p.stockActual-min.cantVend;
 			end;
 			minimo(vecDet,vecReg,min); 
 		end;
 		monto:=p.precioActual*comprados;
 		if (p.stockActual<p.stockMin) then
-				writln('El producto: ',p.codigoP,' Stock Atual: ',p.stockActual);
+				writeln('El producto: ',p.codigoP,' Stock Atual: ',p.stockActual);
 		seek(mae,filepos(mae)-1);
-		write(mae,p)
+		write(mae,p);
 		montoTotal:=montoTotal+monto;
 		writeln('Producto: ',p.codigoP,' Descripcion: ',p.descripcion,' Monto: $',monto:0:2);
 	end;
 	close(mae);
-	for (i:=1 to DF) do 
+	for i:=1 to DF do 
 		close(vecDet[i]);
 	writeln('El monto total recaudado es : $',montoTotal:0:2);
 end;
