@@ -88,7 +88,9 @@ var
 	vecReg:vecRegistro;
 	p:producto;
 	min:pedido;
-	pedidos:=integer;
+	pedidos:integer;
+	diferencia:integer;
+	i:integer;
 begin
 	
 	//Abro los archivos detalle
@@ -111,7 +113,7 @@ begin
 			if (min.cantPedida>p.stockAct) then begin
 				pedidos:=pedidos +p.stockAct;
 				diferencia:=min.cantPedida-p.stockAct;
-				p.stockAct:=0
+				p.stockAct:=0;
 				writeln('No se pudo satisfacer completamente el pedido del producto ',
                 p.codigoP, ' (Categoria ', p.categoria, ').');
 				writeln('   Faltaron ', diferencia, ' unidades.');
@@ -128,7 +130,7 @@ begin
         
 		//actualizo el maestro
 		seek(mae,filepos(mae)-1);
-		write(mae);
+		write(mae,p);
 		
 		//ciero todos los archivos
 		close(mae);
@@ -138,9 +140,17 @@ begin
 		
 		writeln('Actualizacion finalizada');
 	end;
+end;
+var
+	
+	mae:maestro;
+	vecDet:vecDetalle;
 
 BEGIN
 	
+	actualizarMaestroYGenerarInforme(mae,vecDet);
+
 	
-END.
+	
+end.
 
