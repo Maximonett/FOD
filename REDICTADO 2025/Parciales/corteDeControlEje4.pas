@@ -65,19 +65,20 @@ begin
 	while (reg.codSuc<>va) do begin
 		act.codSuc:=reg.codSuc;
 		totalVendSuc:=0;
+		writeln(txt,'Codigo de Sucursal: ',act.codSuc);
 		while (reg.codSuc=act.codSuc) do begin
-			writeln(txt,'Codigo de Sucursal: ',act.codSuc);
-			totalVendAutor:=0;
 			act.idAutor:=reg.idAutor;
+			writeln(txt,'Identificador del autor: ',act.idAutor);
+			totalVendAutor:=0;
+			
 			while (reg.codSuc=act.codSuc)and(reg.idAutor=act.idAutor) do begin
-				writeln(txt,'Identificador del autor: ',act.idAutor);
 				totalVendISBN:=0;
 				act.ISBN:=reg.ISBN;
 				while (reg.codSuc=act.codSuc)and(reg.idAutor=act.idAutor)and(reg.ISBN=act.ISBN) do begin
 					totalVendISBN:=totalVendISBN+1;
-					writeln(txt,'ISBN: ',act.ISBN);
 					leer(mae,reg);
 				end;
+				writeln(txt,'ISBN: ',act.ISBN);
 				writeln(txt,'Total de ejemplares del Libro: ',totalVendISBN);
 				totalVendAutor:=totalVendAutor+totalVendISBN;
 			end;
