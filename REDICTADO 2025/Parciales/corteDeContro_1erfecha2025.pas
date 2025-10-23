@@ -72,7 +72,9 @@ var
 	reg,act:infoMae;
 	anos,presentacionesAnos, presentacionesTotal:integer;
 	puntajeMin:real;
-	nombreArtista:cadena;
+	nombreArtistaMenos:cadena;
+	nombreEventoMenos:cadena;
+	anoMenos:integer;
 	disLikesMax:longint;
 		
 begin
@@ -102,26 +104,28 @@ begin
 				act.puntaje:=0;
 				writeln('Artista: ',act.nombreArtista,' (Codigo: ',act.codArtista,' )');
 				while( act.ano=reg.ano)and(act.codEvento=reg.codEvento)and (act.codArtista=reg.codArtista) do begin
-				act.cantLikes:=act.cantLikes+reg.cantLikes;
-				act.cantDisLikes:=act.cantDisLikes+reg.cantDisLikes;
-				act.puntaje:=act.puntaje+reg.puntaje;
-				presentacionesAnos:=presentacionesAnos+1;
-				leer(a,reg);					
+					act.cantLikes:=act.cantLikes+reg.cantLikes;
+					act.cantDisLikes:=act.cantDisLikes+reg.cantDisLikes;
+					act.puntaje:=act.puntaje+reg.puntaje;
+					presentacionesAnos:=presentacionesAnos+1;
+					leer(a,reg);					
 				end;
 				if(act.puntaje<puntajeMin) or (act.puntaje=puntajeMin)and (act.cantDisLikes>dislikesMax) then begin
 					puntajeMin:=act.puntaje;
 					dislikesMax:=act.cantDisLikes;
-					nombreArtista:=act.nombreArtista;
+					nombreArtistaMenos:=act.nombreArtista;
+					nombreEventoMenos:=act.nombreEvento;
+					anoMenos:=act.ano;
 				end;
 				writeln('Likes Totales: ',act.cantLikes);
 				writeln('Dislikes totales: ',act.cantDisLikes);
 				writeln('Diferencia: ',(act.cantLikes-act.cantDisLikes);
 				writeln('Puntaje total del jurado: ',act.puntaje);				
 			end;
-			writeln('El artista ',nombreArtista, ' fue el menos nfluyente de ',act.nombreEvento,' del Año ',act.ano,'.');			
+			writeln('El artista ',nombreArtistaMenos, ' fue el menos nfluyente de ',nombreEventoMenos,' del Año ',anoMenos,'.');			
 		end;
 		writeln('Durante el año ', act.ano,' se registraron ',presentacionesAnos,' presentanciones de artistas.');
-		presentacionesTotal:=presentacionesTotal+presentacionesAnos;
+		presentacionesTotal:=presentacionesTotal+presentacionesAnos; 
 	end;
 	writeln;
 	if anos>0 then 
